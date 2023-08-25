@@ -5,7 +5,7 @@ Un programa Prolog se compone de un conjunto de hechos (afirmaciones simples) y 
 
 Prolog busca relacionar los diferentes hechos existentes en su base de conocimientos por medio de secuencias lógicas enlazadas, para de esta forma lograr alcanzar una conclusión lógica partiendo de predicados determinados.
 
-Algunas de las características de este lenguaje son que:
+Algunas de las características de este lenguaje son:
 
 1. Esta basado en predicados lógicos.
 2. Se centra en la resolución del problema, más que en cómo llegar a esa solución.
@@ -29,7 +29,7 @@ Ejemplo 1: Suponga que maneja una despensa para una cocina y tiene los siguiente
 * mantequilla
 
 En prolog lo declara así:
-```[prolog]
+```prolog
 % ***hechos***
 hay(limon).
 hay(lechuga).
@@ -38,7 +38,7 @@ hay(pasta).
 hay(mantequilla).
 ```
 Ejemplo 2: supanga que quiere almacenar las calificaciones del primer parcial de un grupo de alumnos, como el siguiente grupo de hechos:
-```[prolog]
+```prolog
 %calificaciones parcial 1
 parcial1(fernando,70).
 parcial1(angel,30).
@@ -89,22 +89,24 @@ En prolog:
 **r:-p;q.**
 
 # Listas en prolog
-Las listas en prolog se define como
-[cabeza|cola]
+Las listas en prolog se define como:
+
+**[cabeza|cola]**
+
 donde cabeza es el primer elemento y cola es una lista con el resto de los elementos.
 
 ## Definir una lista:
-```[prolog]
+```prolog
 L=[1,2,3,4,].
 ```
 ## Otra forma
-```[prolog]
+```prolog
 ?- numlist(1,8,X).
 X = [1, 2, 3, 4, 5, 6, 7, 8].
 ```
 ## Usando listas
 Supong que tiene los hechos:
-```[prolog]
+```prolog
 % ***hechos***
 hay(limon).
 hay(lechuga).
@@ -113,13 +115,13 @@ hay(pasta).
 hay(mantequilla).
 ```
 Y quiere una lista de todos los elementos que hay:
-```[prolog]
+```prolog
 %ingredientes existentes con lista
 que_hay(LI):-findall(I,hay(I),LI),write('hay: '),write(LI).
 ```
 ## sumar datos de una lista
 Suponga que tiene los hechos:
-```[prolog]
+```prolog
 %calificaciones parcial 1
 parcial1(fernando,70).
 parcial1(angel,30).
@@ -140,6 +142,168 @@ promedio_p1(P):-
     suma_lista(L,S),
     cantidad_alumnos_p1(N),
     P is S/N.
+```
+# Ejemplos
+## ingredientes
+
+archivo "ingredintes.pl"
+
+Objetivo: Manejar el menú de un restaurante donde se desea cumplir con los requerimientos:
+
+1. Mostrar la existencia de ingredientes para las comidas en la despensa
+2. Ingredientes que faltan para un platillo
+3. Saber si existen los ingredientes para preparar un platillo
+4. Mostrar los ingredientes que lleva un platillo
+5. Mostrar todos los ingredientes necesarios para todo el menú
+
+Se conocen los siguientes hechos:
+
+En la despensa hay:
+* limón
+* lechuga
+* papa
+* pasta
+* mantequilla
+
+Los ingredientes del puré son:
+* papa
+* mantequilla
+Los ingredientes de la sopa son:
+* pasta
+* cebolla
+* cilantro
+
+Solución:
+Paso 1 diseñar y cargar los hechos en la base de conocimiento (BC)
+
+```prolog
+% ***hechos***
+hay(limon).
+hay(lechuga).
+hay(papa).
+hay(pasta).
+hay(mantequilla).
+lleva(pure,papa).
+lleva(pure,mantequilla).
+lleva(sopa,pasta).
+lleva(sopa,cebolla).
+lleva(sopa,cilantro).
+```
+Paso 2 diseñar los requerimientos en prolog:
+
+requerimiento 1: mostrar la existencia de ingredientes para las comidas en la despensa:
+
+Solución:
+
+```prolog
+%Consulatar este hecho en swi-prolog
+hay(X).
+%una opción es: agregar esta regla a la BC
+que_hay(LI):-findall(I,hay(I),LI),write('hay: '),write(LI).
+%y hacer esta consulta es swi-prolog
+que_hay(X).
+```
+
+Requerimiento 2: ingredientes que faltan para un platillo:
+
+```prolog
+% ingredientes que faltan para un platillo, agregar la regla:
+falta(P,X):-lleva(P,X),\+hay(X).
+lista_faltantes(P):-findall(I,falta(P,I),LF),write(LF).
+```
+
+Con el simbolo \+ es la negación en prolog, solo hay que considerar que hace una negación por fallo, es decir si no lo puede probar entonces es falso.
+
+Ejemplo:
+```prolog
+es_hombre(juan).
+es_hombre(luis).
+es_mujer(X):- \+ es_hombre(X).
+
+```
+si hacemos la consulta:
+
+?es_mujer(pedro).
+true
+
+nos da true indicando que lo es, esto por que no se pudo probar que es hombre.
+
+## Operador corte !
+
+Cortar. Descarta todos los puntos de elección creados desde que ingreso el predicado en el que aparece el corte. En otras palabras, se compromete con la cláusula en la que aparece el corte y descarte los puntos de elección que hayan sido creados por objetivos a la izquierda del corte en la cláusula actual. 
+
+## -> condicion->accion
+
+Si-entonces y Si-Entonces-Si no. La construcción -> se compromete con las elecciones realizadas en su lado izquierdo, destruyendo los puntos de elección creados dentro de la cláusula (por ;), o por los objetivos llamados por esta cláusula. A diferencia de !, el punto de elección del predicado en su conjunto (debido a múltiples cláusulas) no se destruye. Sin tener en cuenta la interacción con !, la combinación ; y -> actúa como si estuviera definida como:
+
+```prolog
+condicion:-
+    condicion:-
+    write('escribe si: '),
+    read(Palabra),
+    ( Palabra == 'si')->
+    (   write('esctribiste si'))
+    ;
+    (   write('no escribiste si'),fail).
+
+
+```
+## Ejemplo:  Calificaciones.
+
+Problema: llevar el control de las calificaciones de 2 parciales de un grupo de alumnos, la calificación final será el promedio de los 2 parciales.
+
+Deseamos obtener las salidas:
+1. Lista de alumnos que aprueban (calificación >=70)
+2. Promedio del grupo del por parcial
+3. Calificación mas baja
+4. Alumnos con la calificación mas baja
+
+
+Hechos:
+```prolog
+%calificaciones parcial 1
+parcial1(fernando,70).
+parcial1(angel,30).
+parcial1(enrique,80).
+parcial1(luis,70).
+parcial1(arturo,30).
+%parcial 2
+parcial2(fernando,70).
+parcial2(angel,70).
+parcial2(enrique,70).
+parcial2(luis,70).
+parcial2(arturo,50).
+```
+1 Alumnos que aprueban:
+```prolog
+%alumnos que aprueban y su calificación
+aprueba(Nombre,CFinal):-
+    parcial1(Nombre,P1),
+    parcial2(Nombre,P2),
+    P1>=70,
+    P2>=70,
+    CFinal is (P1+P2)/2.
+```
+2 Promedio del parcial 2
+```prolog
+promedio_p2(P):-
+    length(Lista,N),
+    sum_list(Lista,Suma),
+    P is Suma/N.
+```
+3 Calificación mas baja
+```prolog
+%calificacion mas baja del parcial 1
+calificacion_mas_baja_p1(CMB):-
+    findall(C,parcial1(_,C),LC),
+    lis_min(CMB,LC).
+```
+
+4 Alumnos con l calificación mas baja del parcial 1
+```prolog
+alumnos_mas_bajos_p1(LA):-
+    calificacion_mas_baja_p1(CMB),
+    findall(X,parcial1(X,CMB),LA).
 ```
 Referencias:
 [swich Prolog](https://swish.swi-prolog.org/p/Tutorial%20de%20prolog.swinb)
