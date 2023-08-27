@@ -21,8 +21,8 @@
 19. [unificación](#unificacion)
 
 Índice Ejemplos
-1. [Ingredientes](e_ingredientes)
-2. [calificacion](e_calificaciones)
+1. [Ingredientes](eeingredientes)
+2. [calificacion](eecalificaciones)
 
 # Prolog <a name="prolog"></a>
 Es un lenguaje de programación basado en el paradigma lógico, este lenguaje es utilizado principalmente para aplicaciones de inteligencia artificial. El desarrollo de PROLOG se inició en 1970 con Alain Coulmeauer y Philippe Roussel. El nombre corresponde a “PROgramming in Logic” (Programación en lógica).
@@ -274,7 +274,7 @@ que_hay(LI):-findall(I,hay(I),LI),write('hay: '),write(LI).
 ```
 ## sumar datos de una lista
 
-### Ejemplo calificaciones <a name="e_calificaciones"></a>
+### Ejemplo calificaciones <a name="eecalificaciones"></a>
 Suponga que tiene los hechos:
 ```prolog
 %calificaciones parcial 1
@@ -299,7 +299,7 @@ promedio_p1(P):-
     P is S/N.
 ```
 
-### Ejemplo ingredientes <a name="e_ingredientes"></a>
+### Ejemplo ingredientes <a name="eeingredientes"></a>
 
 archivo "ingredintes.pl"
 
