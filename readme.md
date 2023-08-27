@@ -404,7 +404,7 @@ condicion:-
 
 
 ```
-## Ejemplo:  Calificaciones.
+### Ejemplo:  Calificaciones <a name="e_calificaciones"></a>
 
 Problema: llevar el control de las calificaciones de 2 parciales de un grupo de alumnos, la calificación final será el promedio de los 2 parciales.
 
