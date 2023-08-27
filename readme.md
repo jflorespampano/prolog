@@ -13,7 +13,134 @@ Algunas de las características de este lenguaje son:
 4. El usuario se centra más en los conocimientos que en los algoritmos.
 5. Se parte de lo conocido a lo desconocido.
 
-# Hechos
+## Base de conocimiento
+Para responder a las preguntas o consultas formuladas por el programador, Prolog consulta una base de conocimiento. Ésta base conocimiento representa el programa como tal, programa que se compone unicamente de clausulas, que con el uso de la lógica, me expresan el conomiento deseado por el programa.
+
+La base de conociento o el programa se guarda en un archivo con la extención '.pl', archivo que puede ser abierto y a partir de esto poderle hacer consultas a mi programa.
+A continuación se muestra el comando para abrir un programa desde la consola de consultas:
+
+```prolog
+consult('nombre_archivo.pl').
+% una opcion es usar:
+[nombre_archivo]
+```
+## terminos
+Los términos en prolog son los componentes que conforman el lenguaje, y en este caso éstos van a ser los únicos elementos que componen un programa.
+
+Existen tres (3) tipos de términos:
+1. Constantes
+2. Variables
+3. Estructuras
+
+### Cosntantes
+* Átomo o Functor: Son nombres de objetos, propiedades, o relaciones. Estos deben empezar en minúscula.
+* Numero: valores que solo pueden ser entero o reales, pueden llevar el signo.
+
+
+Ejemplos:
+```prolog
+%atomos
+atomo(luis).
+atomo(color).
+atomo(padre).
+atomo('pedro').
+%Ejemplos de las diferentes formas de expresar un número:
+numero(2).
+numero(216565).
+numero(1.54521).
+numero(-5).
+numero(-5.0).
+numero(2e10).
+```
+
+### Variables
+Se representan mediante cadenas representadas por letras, números o por el símbolo ‘\_’, para que Prolog las tome como variables, éstas deben empezar en mayúscula o con ‘\_’.
+
+Ejemplos del uso de variables:
+```prolog
+variable(X).
+variable(Variable).
+variable(_).
+variable(_var).
+```
+Una variable anónima se representa por el nombre ‘_’ con la cual en cada instancia de ésta variable se refiere a una variable distinta.
+
+### Estructuras
+Estos son términos compuestos por otros términos, donde la sintaxis que se tiene es la siguiente:
+
+nombre_atomo(termino1, termino2, ..., terminoN).
+Donde esos terminos del 1 al N, se les llama argumentos . Además, al nombre del atomo tambien se le llama predicado.
+
+
+A continuación se muestran algunos ejemplos de estructuras:
+```prolog
+padre(luis). % Estructura que toma un solo argumento.
+edad(luis, 30). % Estructura que ya se compone por más de un argumento.
+color(X). % Estructura con atomo llamado color y con un argumento que es una variable
+```
+### operadores aritméticoss
+| operación |Operador|
+|-----------|--------|
+|Suma       |+ |
+|Resta |-|
+|Multiplicación| *|
+|División real y entera |/ y //
+|Potencia |^ y **
+|Positivo |+
+|Negativo |-
+
+### Operadores Relacionales
+|Operador	|Significado	|Ejemplo|
+|-----------|---------------|-------|
+|is	    |Unificación	|X is 10 + 2|
+|=:=	|Igualdad	|10 + 2 =:= 5 + 7|
+|=\=	|Desigualdad	|10 + 2 =\= 5 + 8|
+|\>     |Mayor que	|11 * 3 > 3 ^ 2|
+|\<	    |Menor que	|2 ** 10 < 5 * 2|
+|\>=	|Mayor o igual que	|99.0 >= 0|
+|=<	I   |igual o menor que	|-15 =< 15|
+
+Comparar dos functors se realiza mediante su representación lexicográfica.
+
+Una estructura es menor que otra si:
+Tiene menor número de argumentos.
+De acuerdo al functor.
+Por los argumentos en orden
+
+|Operador	|Significado	|Ejemplo|
+|-----------|---------------|-------|
+|=	|Unificación	|X = 10 + 2|
+|==	|Igualdad	|10 + 2 == 10 + 2|
+|\\==	|Desigualdad	|10 + 2 \== 5 + 7|
+|@>	|Mayor que	bananon |@> bananin|
+|@<	|Menor que	parse |@< tree|
+|@>=	|Mayor o igual que	ser |@>= humano|
+|@=<	|Igual o menor que	raton |@=< teclado
+
+
+
+## clausulas
+Las cláusulas en Prolog están basadas en cláusulas de Horn.
+
+Lo cual sería equivalente a tener en Prolog:
+p :- p1, p2, …, pm.
+Donde p es la Cabeza y todos los pi son el Cuerpo, y cada uno de ellos son Functores.
+
+Ejemplos:
+
+planeta(marte). : Marte es un planeta.
+
+hombre('Felipe'). : Felipe es un hombre.
+
+mato(hombre(_), X). : hombre(_) mató a X.
+
+Tipos de cláusulas:
+
+* Una cláusula con cabeza y cuerpo es llamada Regla.
+* Sin cuerpo es un Hecho o Afirmación.
+* Sin cabeza es una Pregunta o Consulta.
+
+# Uso de Hechos
 Los hechos expresan relaciones entre los objetos del universo en cuestión,
 que son verdaderas incondicionalmente. 
 
@@ -28,7 +155,7 @@ Ejemplo 1: Suponga que maneja una despensa para una cocina y tiene los siguiente
 * pasta
 * mantequilla
 
-En prolog lo declara así:
+En prolog declara estos hechos por ejemplo así:
 ```prolog
 % ***hechos***
 hay(limon).
@@ -47,7 +174,7 @@ parcial1(luis,70).
 parcial1(arturo,70).
 ```
 
-## Reglas
+## Uso de Reglas
 
 Cuando la verdad de un hecho depende de la veracidad de otro hecho o de un grupo de hechos se usa una regla. Las reglas permiten establecer relaciones más elaboradas entre objetos donde se declaran las condiciones para que un predicado sea cierto, combinando hechos para dar el valor de verdad del predicado.
 La sintaxis base para una regla es la siguiente:
@@ -86,7 +213,7 @@ La inferencia:
 
 En prolog:
 
-**r:-p;q.**
+**r:-p;q.** %p ponto y coma q
 
 # Listas en prolog
 Las listas en prolog se define como:
@@ -105,7 +232,7 @@ L=[1,2,3,4,].
 X = [1, 2, 3, 4, 5, 6, 7, 8].
 ```
 ## Usando listas
-Supong que tiene los hechos:
+Suponga que tiene los hechos:
 ```prolog
 % ***hechos***
 hay(limon).
@@ -212,7 +339,7 @@ falta(P,X):-lleva(P,X),\+hay(X).
 lista_faltantes(P):-findall(I,falta(P,I),LF),write(LF).
 ```
 
-Con el simbolo \+ es la negación en prolog, solo hay que considerar que hace una negación por fallo, es decir si no lo puede probar entonces es falso.
+Con el simbolo `\+` es la negación en prolog, solo hay que considerar que hace una negación por fallo, es decir si no lo puede probar entonces es falso.
 
 Ejemplo:
 ```prolog
@@ -224,6 +351,7 @@ es_mujer(X):- \+ es_hombre(X).
 si hacemos la consulta:
 
 ?es_mujer(pedro).
+
 true
 
 nos da true indicando que lo es, esto por que no se pudo probar que es hombre.
@@ -305,5 +433,167 @@ alumnos_mas_bajos_p1(LA):-
     calificacion_mas_baja_p1(CMB),
     findall(X,parcial1(X,CMB),LA).
 ```
+## Predicados de listas
+
+`lis_min(Lista)` nos da el minimo de una lista.
+
+`lis_max(Lista)` nos da el maximo de una lista.
+
+`sum_list(Lista,Suma)` Suma los elementos de una lista
+
+`length(Lista,N)` numero de elementos de la lista
+
+`findall(X,predicado(X),Lista)` crea una lista con los valores X que cumplen el predicado.
+
+## forall
+
+forall es un predicado que es cierto si para todos las posibles soluciones de un predicado se da una condición que es cierta.
+
+ejemplo:
+suponga los siguientes hechos:
+```prolog
+%
+amigo(juancarlos, felipe).
+amigo(juancarlos, cristina).
+amigo(juancarlos, elena).
+
+casado(felipe).
+casado(cristina).
+divorciado(elena).
+```
+Ahora hagamos las consultas:
+```prolog
+% ¿todos los amigos de juancarlos que son casados?
+?- forall(amigo(juancarlos, X), casado(X)).
+false.
+% ¿todos los amigos de juancorlos son casados o divorciados?
+?- forall(amigo(juancarlos, X), casado(X) ; divorciado(X)).
+true.
+```
+## Datos con estucturas mas complejas
+```prolog
+
+%hechos
+estudia(isc, alumno('2234','juan perez')).
+estudia(ico, alumno('2235','ana perez')).
+estudia(isc, alumno('2237','rosa perez')).
+materias('2234',[fisica, quimica,mate]).
+materias('2237',[logica, redaccion,mate]).
+
+%para el alumno conmatricula M de isc, encontrar nombre
+nombre_de(M,N):-estudia(isc,alumno(M,N)),!.
+```
+ahora podemos hacer las consutas:
+```prolog
+?- nombre_de('2234',N).
+N = 'juan perez'.
+
+?- materias('2234',X).
+X = [fisica, quimica, mate].
+```
+## assert
+Veamos como agregar consultas de forma dinámica, vamos a agregar sintomas a pacientes segun su respuesta:
+```prolog
+tos(X):-
+    write('tiene tos? '), write(X), write(': '),
+    read(R),
+    (  R='si' )-> assert(si(X,tos)).
+
+```
+El predicado `assert(si(X,tos))` agrega el nuevo hecho: `si(X,tos)` a la base de conocimiento de tal manera que:
+
+Si hacemos la consulta:
+```prolog
+?- tos(ana).
+tiene tos ana: si.
+
+true.
+```
+Si contestamos 
+
+**si.**
+
+Se agrega un nuevo hecho `si(ana,tos)`
+De manera que si preguntamos quien tiene tos, la respuesta sera ana:
+```prolog
+?- si(X,tos).
+X = ana.
+```
+
+## Debug
+Para depurar un programa , primero, en swi-rpolog en el menu debug active **Graphic DDebug**
+En swi-prolog ponga el comando
+```prolog
+?trace.
+-trace %ejecute la consulta
+```
+abre una ventana de depuración.
+
+## Unificación
+Como hemos visto antes, en Prolog hay tres tipos de términos:
+* constantes, que pueden ser átomos (socrates, zeus) o números (3,
+23.5).
+* variables como X , _Z3 o Dioses
+* términos complejos, con la estructura functor(t_1..., t_n).
+
+Es muy importante conocer cómo funciona el intérprete de Prolog
+a la hora de tratar de instanciar variables para unificar términos.
+Cuando Prolog unifica dos términos, lleva a cabo todas las instanciaciones
+necesarias para asegurar que estos dos términos son iguales.
+Esta funcionalidad, unida a la posibilidad de crear términos complejos
+con estructuras anidades, resulta un mecanismo muy potente y la
+principal ventaja a la hora de utilizar Prolog.
+En Prolog, decimos que dos términos distintos termino1 y termino2
+unifican en los siguientes casos:
+1. si termino1 y termino2 son constantes unifican si y solo si son el Unificación de constantes
+mismo átomo o el mismo número:
+
+```prolog
+?- =(zeus, zeus).
+true.
+?- =(4, 4).
+true.
+?- a = 25.
+false.
+```
+2. si termino1 es una variable y termino2 es cualquier tipo de Unificación de variables
+término unifican, y además, termino1 se instancia a termino2. En
+sentido contrario funciona exactamente igual. Y si ambos términos
+son variables, unifican porque cada uno se instancia con el otro y
+comparten valores.
+```prolog
+?- Persona = juan.
+Persona = juan.
+?- Uno = 1.
+Uno = 1.
+?- 2 = Dos.
+Dos = 2.
+?- Uno = Otro.
+Uno = Otro.
+```
+3. Si termino1 y termino2 son términos complejos, unifican si y 
+solo si:
+* tienen el mismo funtor y la misma aridad;
+* todos sus argumentos unifican, y;
+* las instanciaciones de las variables son compatibles
+
+```prolog
+?- divinidad(zeus) = divinidad(zeus).
+true.
+?- divinidad(zeus) = divinidad(Dios).
+Dios = zeus.
+?- amigos(persona(pepe), Amigo1) = amigos(Amigo2, colega(juan)).
+Amigo1 = colega(juan),
+Amigo2 = persona(pepe).
+% aquí es imposible que X se instancie con un valor válido para ambos hechos
+?- padre(cronos, X) = padre(X, zeus).
+false.
+?- ama(X, X) = ama(pepe, maria).
+false.
+```
+
 Referencias:
+
+[adrinistan/supertutorial](https://en.wikibooks.org/wiki/Prolog/Bagof,_Setof_and_Findall)
+
 [swich Prolog](https://swish.swi-prolog.org/p/Tutorial%20de%20prolog.swinb)
