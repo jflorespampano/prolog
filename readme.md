@@ -1,4 +1,30 @@
-# Prolog
+Índice
+1. [prolog](#prolog)
+2. [base de conocimiento](#bc)
+3. [terminos](#terminos)
+4. [constantes](#constantes)
+5. [variables](#variables)
+6. [estructuras](#estructuras)
+7. [operadores aritméticos](#operadores_ar)
+8. [operadores relacionales](#operadores_re)
+9. [clausulas](#clausulas)
+10. [uso de hechos](#uso_hechos)
+11. [uso de reglas](#uso_reglas)
+12. [listas](#listas)
+13. [corte](#corte)
+14. [condición](#condicion)
+15. [predicados de lista](#predicados_lista)
+15. [forall](#forall)
+16. [datros con estructuras complejas](#datos_complejos)
+17. [assert](#assert)
+18. [debug](#debug)
+19. [unificación](#unificacion)
+
+Índice Ejemplos
+1. [Ingredientes](e_ingredientes)
+2. [calificacion](e_calificaciones)
+
+# Prolog <a name="prolog"></a>
 Es un lenguaje de programación basado en el paradigma lógico, este lenguaje es utilizado principalmente para aplicaciones de inteligencia artificial. El desarrollo de PROLOG se inició en 1970 con Alain Coulmeauer y Philippe Roussel. El nombre corresponde a “PROgramming in Logic” (Programación en lógica).
 
 Un programa Prolog se compone de un conjunto de hechos (afirmaciones simples) y de reglas (que sirven para afirmar la veracidad de un hecho con  base en otros).
@@ -13,7 +39,7 @@ Algunas de las características de este lenguaje son:
 4. El usuario se centra más en los conocimientos que en los algoritmos.
 5. Se parte de lo conocido a lo desconocido.
 
-## Base de conocimiento
+## Base de conocimiento <a name="bc"></a>
 Para responder a las preguntas o consultas formuladas por el programador, Prolog consulta una base de conocimiento. Ésta base conocimiento representa el programa como tal, programa que se compone unicamente de clausulas, que con el uso de la lógica, me expresan el conomiento deseado por el programa.
 
 La base de conociento o el programa se guarda en un archivo con la extención '.pl', archivo que puede ser abierto y a partir de esto poderle hacer consultas a mi programa.
@@ -24,7 +50,7 @@ consult('nombre_archivo.pl').
 % una opcion es usar:
 [nombre_archivo]
 ```
-## terminos
+## terminos <a name="terminos"></a>
 Los términos en prolog son los componentes que conforman el lenguaje, y en este caso éstos van a ser los únicos elementos que componen un programa.
 
 Existen tres (3) tipos de términos:
@@ -32,7 +58,7 @@ Existen tres (3) tipos de términos:
 2. Variables
 3. Estructuras
 
-### Cosntantes
+### Constantes <a name="constantes"></a>
 * Átomo o Functor: Son nombres de objetos, propiedades, o relaciones. Estos deben empezar en minúscula.
 * Numero: valores que solo pueden ser entero o reales, pueden llevar el signo.
 
@@ -53,7 +79,7 @@ numero(-5.0).
 numero(2e10).
 ```
 
-### Variables
+### Variables <a name="variables"></a>
 Se representan mediante cadenas representadas por letras, números o por el símbolo ‘\_’, para que Prolog las tome como variables, éstas deben empezar en mayúscula o con ‘\_’.
 
 Ejemplos del uso de variables:
@@ -65,7 +91,7 @@ variable(_var).
 ```
 Una variable anónima se representa por el nombre ‘_’ con la cual en cada instancia de ésta variable se refiere a una variable distinta.
 
-### Estructuras
+### Estructuras <a name="estructuras"></a>
 Estos son términos compuestos por otros términos, donde la sintaxis que se tiene es la siguiente:
 
 nombre_atomo(termino1, termino2, ..., terminoN).
@@ -78,7 +104,7 @@ padre(luis). % Estructura que toma un solo argumento.
 edad(luis, 30). % Estructura que ya se compone por más de un argumento.
 color(X). % Estructura con atomo llamado color y con un argumento que es una variable
 ```
-### operadores aritméticoss
+### operadores aritméticos <a name="operadores_ar"></a>
 | operación |Operador|
 |-----------|--------|
 |Suma       |+ |
@@ -89,7 +115,7 @@ color(X). % Estructura con atomo llamado color y con un argumento que es una var
 |Positivo |+
 |Negativo |-
 
-### Operadores Relacionales
+### Operadores Relacionales <a name="operadores_re"></a>
 |Operador	|Significado	|Ejemplo|
 |-----------|---------------|-------|
 |is	    |Unificación	|X is 10 + 2|
@@ -119,7 +145,7 @@ Por los argumentos en orden
 
 
 
-## clausulas
+## clausulas <a name="clausulas"></a>
 Las cláusulas en Prolog están basadas en cláusulas de Horn.
 
 Lo cual sería equivalente a tener en Prolog:
@@ -140,7 +166,7 @@ Tipos de cláusulas:
 * Sin cuerpo es un Hecho o Afirmación.
 * Sin cabeza es una Pregunta o Consulta.
 
-# Uso de Hechos
+# Uso de Hechos <a name="uso_hechos"></a>
 Los hechos expresan relaciones entre los objetos del universo en cuestión,
 que son verdaderas incondicionalmente. 
 
@@ -174,7 +200,7 @@ parcial1(luis,70).
 parcial1(arturo,70).
 ```
 
-## Uso de Reglas
+## Uso de Reglas <a name="uso_reglas"></a>
 
 Cuando la verdad de un hecho depende de la veracidad de otro hecho o de un grupo de hechos se usa una regla. Las reglas permiten establecer relaciones más elaboradas entre objetos donde se declaran las condiciones para que un predicado sea cierto, combinando hechos para dar el valor de verdad del predicado.
 La sintaxis base para una regla es la siguiente:
@@ -215,7 +241,7 @@ En prolog:
 
 **r:-p;q.** %p ponto y coma q
 
-# Listas en prolog
+# Listas en prolog <a name="listas"></a>
 Las listas en prolog se define como:
 
 **[cabeza|cola]**
@@ -247,6 +273,8 @@ Y quiere una lista de todos los elementos que hay:
 que_hay(LI):-findall(I,hay(I),LI),write('hay: '),write(LI).
 ```
 ## sumar datos de una lista
+
+### Ejemplo calificaciones <a name="e_calificaciones"></a>
 Suponga que tiene los hechos:
 ```prolog
 %calificaciones parcial 1
@@ -270,8 +298,8 @@ promedio_p1(P):-
     cantidad_alumnos_p1(N),
     P is S/N.
 ```
-# Ejemplos
-## ingredientes
+
+### Ejemplo ingredientes <a name="e_ingredientes"></a>
 
 archivo "ingredintes.pl"
 
@@ -356,11 +384,11 @@ true
 
 nos da true indicando que lo es, esto por que no se pudo probar que es hombre.
 
-## Operador corte !
+## Operador corte ! <a name="corte"></a>
 
 Cortar. Descarta todos los puntos de elección creados desde que ingreso el predicado en el que aparece el corte. En otras palabras, se compromete con la cláusula en la que aparece el corte y descarte los puntos de elección que hayan sido creados por objetivos a la izquierda del corte en la cláusula actual. 
 
-## -> condicion->accion
+## -> condicion->accion <a name="condicion"></a>
 
 Si-entonces y Si-Entonces-Si no. La construcción -> se compromete con las elecciones realizadas en su lado izquierdo, destruyendo los puntos de elección creados dentro de la cláusula (por ;), o por los objetivos llamados por esta cláusula. A diferencia de !, el punto de elección del predicado en su conjunto (debido a múltiples cláusulas) no se destruye. Sin tener en cuenta la interacción con !, la combinación ; y -> actúa como si estuviera definida como:
 
@@ -433,7 +461,7 @@ alumnos_mas_bajos_p1(LA):-
     calificacion_mas_baja_p1(CMB),
     findall(X,parcial1(X,CMB),LA).
 ```
-## Predicados de listas
+## Predicados de listas <a name="predicados_lista"></a>
 
 `lis_min(Lista)` nos da el minimo de una lista.
 
@@ -445,7 +473,7 @@ alumnos_mas_bajos_p1(LA):-
 
 `findall(X,predicado(X),Lista)` crea una lista con los valores X que cumplen el predicado.
 
-## forall
+## forall <a name="forall"></a>
 
 forall es un predicado que es cierto si para todos las posibles soluciones de un predicado se da una condición que es cierta.
 
@@ -470,7 +498,7 @@ false.
 ?- forall(amigo(juancarlos, X), casado(X) ; divorciado(X)).
 true.
 ```
-## Datos con estucturas mas complejas
+## Datos con estucturas mas complejas <a name="datos_complejos"></a>
 ```prolog
 
 %hechos
@@ -491,7 +519,7 @@ N = 'juan perez'.
 ?- materias('2234',X).
 X = [fisica, quimica, mate].
 ```
-## assert
+## assert <a name="assert"></a>
 Veamos como agregar consultas de forma dinámica, vamos a agregar sintomas a pacientes segun su respuesta:
 ```prolog
 tos(X):-
@@ -520,7 +548,7 @@ De manera que si preguntamos quien tiene tos, la respuesta sera ana:
 X = ana.
 ```
 
-## Debug
+## Debug <a name="debug"></a>
 Para depurar un programa , primero, en swi-rpolog en el menu debug active **Graphic DDebug**
 En swi-prolog ponga el comando
 ```prolog
@@ -529,7 +557,7 @@ En swi-prolog ponga el comando
 ```
 abre una ventana de depuración.
 
-## Unificación
+## Unificación <a name="unificacion"></a>
 Como hemos visto antes, en Prolog hay tres tipos de términos:
 * constantes, que pueden ser átomos (socrates, zeus) o números (3,
 23.5).
