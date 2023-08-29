@@ -15,14 +15,16 @@
 14. [condición](#condicion)
 15. [predicados de lista](#predicados_lista)
 15. [forall](#forall)
-16. [datros con estructuras complejas](#datos_complejos)
+16. [datos con estructuras complejas](#datos_complejos)
 17. [assert](#assert)
 18. [debug](#debug)
 19. [unificación](#unificacion)
 
 Índice Ejemplos
 1. [Ingredientes](#eeingredientes)
-2. [calificacion](#eecalificaciones)
+2. [Promedio](#eepromedio)
+3. [Calificaciones ](#e_calificaciones)
+4. [proyectos de software](#e_proyectos_sft)
 
 # Prolog <a name="prolog"></a>
 Es un lenguaje de programación basado en el paradigma lógico, este lenguaje es utilizado principalmente para aplicaciones de inteligencia artificial. El desarrollo de PROLOG se inició en 1970 con Alain Coulmeauer y Philippe Roussel. El nombre corresponde a “PROgramming in Logic” (Programación en lógica).
@@ -274,7 +276,7 @@ que_hay(LI):-findall(I,hay(I),LI),write('hay: '),write(LI).
 ```
 ## sumar datos de una lista
 
-### Ejemplo calificaciones <a name="eecalificaciones"></a>
+### Ejemplo calificaciones <a name="eepromedio"></a>
 Suponga que tiene los hechos:
 ```prolog
 %calificaciones parcial 1
@@ -620,7 +622,84 @@ false.
 false.
 ```
 
+## trabajar con vscode
+
+Si desea trabajar con VS-Code, al instalar swi-prolog es importante que incorporen la ruta de la carpeta bin de swi-prolog a la variable PATH del entorno del sistema operativo. Esto lo pueden hacer de dos maneras: 
+
+1. en el instalador seleccionan la opción para que lo incorpore automáticamente al PATH, o 
+2. agregando esa nueva ruta (`C:\Program Files\swipl\bin`) al PATH en el sistema, esta ruta puede variar dependiendo de donde instalo el swi-prolog. 
+
+Instala la extensión VSC-Prolog, de Arthur Wang. 
+
+Para trabajar con Swi-prolog, en configuración de la extensión VSC_prolog, ve a:
+"Prolog: Executable Path" y sobreescribe el valor por defecto a este valor (puede variar segun donde instalaste swi-prolog).
+
+
+`C:\Program Files\swipl\bin\swipl`
+
+O la ruta donde se encuentre tu archivo swipl.exe.
+
+Abre una terminal y ejecuta:
+
+`swipl nombreDelArchivo.pl`
+
+veras: 
+
+`?-`
+
+en la terminal, esto te permite ejecutar preguntas:
+
+Para salir de prolog pon:
+
+`?-halt.`
+
+## Ejemplo Proyectos software <a name="e_proyectos_sft"></a>
+
+Suponga que desea llevar el control del personal de proyectos de sofware de la empresa "Chitos s.a.", donde se tiene un grupo de empleados que pueden tener alguno de estos niveles:
+* tecnico
+* pasante
+* titulado
+* con maestría
+* certificado en algún lenguaaje
+
+Ademas se tienen 3 niveles en el personal
+
+* programados junior-. aquel que tienen  nivel técnico o es pasante.
+* programador senior: aquel que es titulado o pasante con una certificación.
+* lider de proyecto: aquel que tiene nivel maestría.
+
+Y el gerente necesita saber, dados los requerimientos de personal de un proyecto, si se cuenta con el personal para llevarlo a cabo.
+
+La empresa quiere iniciar 3 proyectos con estos requerimientos:
+* proyecto 1: requiere un programador jr y un programador senior
+* proyecto 2: requiere 2 programadores senior
+* proyecto 3: requiere un lider de proyecto y un programador senior
+
+La empresa desea saber si cuenta con el personal adecuado para estos proyectos.
+
+Solucion:
+
+```prolog
+nivel(ana,tecnico).
+nivel(juan,pasante).
+nivel(luis,tuitulado).
+nivel(rosa,maestria).
+certificado_en(ana,c).
+certificado_en(rosa,php).
+certificado_en(ana,js).
+certificado_en(juan,c).
+certificado(X):-certificado_en(X,Y).
+programadorjr(X):-nivel(X,tecnico);nivel(X,pasante).
+programadorsr(X):-nivel(X,titulado);nivel(X,pasante),certificado(X).
+lider(X):-nivel(X,maestria).
+puede_proyecto1:-programadorjr(X),programadorsr(Y),X\=Y.
+puede_proyecto2:-programadorsr(X),programadorsr(Y),X\=Y.
+puede_proyecto3:-lider(X),programadorsr(Y),X\=Y.
+```
+
 Referencias:
+
+[trabajando con VSCode](https://github.com/pdep-utn/enunciados-miercoles-noche/blob/master/pages/prolog/entorno.md)
 
 [adrinistan/supertutorial](https://en.wikibooks.org/wiki/Prolog/Bagof,_Setof_and_Findall)
 

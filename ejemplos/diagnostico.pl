@@ -84,7 +84,7 @@ diagnosticar_gripe:-
     write('diagnostico: PROBABLE GRIPE').
 
 %diagnosticar enfermedad
-%retractall elimina un conjunot de clausulas dinámicas
+%retractall elimina un conjunot de clausulas dinï¿½micas
 diagnostico:-
     (   diagnosticar_malaria
         ;
