@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ES-mx">
+
+<head>
+    <meta charset="UTF-8">
+    <title>tau-prolog</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script src="tau-prolog.js"></script>
+</head>
+
+<body>
+    <div class="w3-container">
+        <div class="w3-content" style="max-width:700px">
+            <div class="w3-panel w3-leftbar w3-light-grey">
+                <div class="w3-container w3-pale-green">
+                    <h2>Paciente</h2>
+                    <p id="diagnostico"></p>
+                </div>
+                <form name="frm_sintomas" class="w3-container">
+
+                    <p>
+                        <label>Nombre</label>
+                        <input id="id_nombre" class="w3-input" type="text">
+                    </p>
+                    <p>
+                        <label>Apellido</label>
+                        <input class="w3-input" type="text">
+                    </p>
+                    <p>
+                    <h2>Sexo</h2>
+                    <p>
+                        <input class="w3-radio" type="radio" name="gender" value="Masculino" checked>
+                        <label class="w3-validate">Masculino</label>
+                    </p>
+                    <p>
+                        <input class="w3-radio" type="radio" name="gender" value="Femenino">
+                        <label class="w3-validate">Femenino</label>
+                    </p>
+                    <h2>Sintomas</h2>
+                    <table "w3-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <input name="cb_fiebre" class="w3-check" type="checkbox" checked="checked">
+                                        <label class="w3-validate">fiebre</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_faringitis" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">faringitis</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_inflamacionganglios" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">inflamacion ganglios</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_ojosrojos" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">ojos rojos</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_dolorcabeza" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> dolor de cabeza</label>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <input name="cb_dolormuscular" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> dolor muscular</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_salpullido" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> salpillido</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_flujonazal" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> flujo nazal</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_vomito" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> vomito</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_nauseas" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">nauseas</label>
+                                    </p>
+
+
+                                </td>
+                                <td>
+                                    <p>
+                                        <input name="cb_escalofrio" class="w3-check" type="checkbox">
+                                        <label class="w3-validate"> escalofrio</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_desnutricion" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">desnutricion</label>
+                                    </p>
+                                    <p>
+                                        <input name="diarrea" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">diarrea</label>
+                                    </p>
+                                    <p>
+                                        <input name="cb_pielamarilla" class="w3-check" type="checkbox">
+                                        <label class="w3-validate">piel amarilla</label>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="w3-btn w3-green" onclick="evaluar(event)">Evaluar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div id="respuesta"></div>
+</body>
+<script id="habilidades.pl" type="text/prolog">
+    :-dynamic(si/1).
+    :-dynamic(no/1).
+
+    sintomade(rubeola,fiebre).
+    sintomade(rubeola,faringitis).
+    sintomade(rubeola,inflamacionganglios).
+    sintomade(rubeola,ojosrojos).
+    tienerubeola:-si(fiebre),si(faringitis),si(inflamacionganglios),si(ojosrojos).
+    tieneanemia:- si(desnutricion),si(nauseas),si(vomito).
+    tienegripe:- si(fiebre),si(dolor_cabeza),si(flujo_nazal).
+
+</script>
+<script>
+    //codigo de sus consultas
+    var session = pl.create();
+
+    //session.query("programa(juan,java).");
+    function verificaSintomas(donde) {
+        console.log("verificando sintomas...");
+        if (document.frm_sintomas.cb_fiebre.checked == true) {
+            session.query(`assertz(si(fiebre)).`);
+            //ver: https://stackoverflow.com/questions/58744984/asserting-predicates-using-tau-prolog-for-javascript
+            session.answer(function (answer) {
+                console.log("hay fiebre...");
+                document.getElementById(donde).innerHTML += "fiebre, ";
+            });
+        } else {
+            session.query(`assertz(no(fiebre)).`);
+            session.answer(function (answer) {
+                console.log("no hay fiebre");
+            });
+        }
+        if (document.frm_sintomas.cb_faringitis.checked == true) {
+            session.query(`assertz(si(faringitis)).`);
+            session.answer(function (answer) {
+                console.log("hay faringitis...");
+                document.getElementById(donde).innerHTML += "faringitis, ";
+            });
+        } else {
+            session.query(`assertz(no(faringitis)).`);
+            session.answer(function (answer) {
+                console.log("no hay faringitis");
+            });
+        }
+        if (document.frm_sintomas.cb_inflamacionganglios.checked == true) {
+            session.query(`assertz(si(inflamacionganglios)).`);
+            session.answer(function (answer) {
+                console.log("hay inflamación de ganglios...");
+                document.getElementById(donde).innerHTML += "inflamación de ganglios, ";
+            });
+        } else {
+            session.query(`assertz(no(inflamacionganglios)).`);
+            session.answer(function (answer) {
+                console.log("no hay inflamación de ganglios");
+            });
+        }
+        if (document.frm_sintomas.cb_ojosrojos.checked == true) {
+            session.query(`assertz(si(ojosrojos)).`);
+            session.answer(function (answer) {
+                console.log("hay ojosrojos...");
+                document.getElementById(donde).innerHTML += "ojosrojos, ";
+            });
+        } else {
+            session.query(`assertz(no(ojosrojos)).`);
+            session.answer(function (answer) {
+                console.log("no hay ojosrojos");
+            });
+        }
+        //verificar anemia
+        if (document.frm_sintomas.cb_desnutricion.checked == true) {
+            session.query(`assertz(si(desnutricion)).`);
+            session.answer(function (answer) {
+                console.log("hay desnutricion...");
+                document.getElementById(donde).innerHTML += "desnutricion, ";
+            });
+        } else {
+            session.query(`assertz(no(desnutricion)).`);
+            session.answer(function (answer) {
+                console.log("no hay desnutricion");
+            });
+        }
+        if (document.frm_sintomas.cb_nauseas.checked == true) {
+            session.query(`assertz(si(nauseas)).`);
+            session.answer(function (answer) {
+                console.log("hay nauseas...");
+                document.getElementById(donde).innerHTML += "nauseas, ";
+            });
+        } else {
+            session.query(`assertz(no(nauseas)).`);
+            session.answer(function (answer) {
+                console.log("no hay nauseas");
+            });
+        }
+        if (document.frm_sintomas.cb_vomito.checked == true) {
+            session.query(`assertz(si(vomito)).`);
+            session.answer(function (answer) {
+                console.log("hay vomito...");
+                document.getElementById(donde).innerHTML += "vomito, ";
+            });
+        } else {
+            session.query(`assertz(no(vomito)).`);
+            session.answer(function (answer) {
+                console.log("no hay vomito");
+            });
+        }
+        if (document.frm_sintomas.cb_dolorcabeza.checked == true) {
+            session.query(`assertz(si(dolor_cabeza)).`);
+            session.answer(function (answer) {
+                console.log("hay dolor de cabeza...");
+                document.getElementById(donde).innerHTML += "dolor de cabeza, ";
+            });
+        } else {
+            session.query(`assertz(no(dolor_cabeza)).`);
+            session.answer(function (answer) {
+                console.log("no hay dolor de cabeza");
+            });
+        }
+        if (document.frm_sintomas.cb_flujonazal.checked == true) {
+            session.query(`assertz(si(flujo_nazal)).`);
+            session.answer(function (answer) {
+                console.log("hay flujo nazal...");
+                document.getElementById(donde).innerHTML += "flujo nazal, ";
+            });
+        } else {
+            session.query(`assertz(no(flujo_nazal)).`);
+            session.answer(function (answer) {
+                console.log("no hay flujo nazal");
+            });
+        }
+
+    }
+    function evaluar(evt) {
+        evt.preventDefault();
+        let nombre_paciente = document.getElementById("id_nombre").value;
+        if (nombre_paciente.length == 0) {
+            nombre_paciente = "anonimo";
+        }
+        session.consult("habilidades.pl");
+        document.getElementById("diagnostico").innerHTML = "Para los sintomas de: ";
+        verificaSintomas("diagnostico");
+        session.query("tienerubeola.");
+        session.answer(function (answer) {
+            let r = pl.format_answer(answer);
+            console.log(" la respuesta a ¿tiene rubeola?: " + r);
+            document.getElementById("diagnostico").innerHTML += "<br> la respuesta a: el paciente " + nombre_paciente + " ¿tiene rubeola? es: " + r;
+        });
+        //
+        session.query("tieneanemia.");
+        session.answer(function (answer) {
+            let r = pl.format_answer(answer);
+            console.log(" la respuesta a ¿tiene anemia?: " + r);
+            document.getElementById("diagnostico").innerHTML += "<br> la respuesta a: el paciente " + nombre_paciente + " ¿tiene anemia? es: " + r;
+        });
+        //
+        session.query("tienegripe.");
+        session.answer(function (answer) {
+            let r = pl.format_answer(answer);
+            console.log(" la respuesta a ¿tiene tiene gripe?: " + r);
+            document.getElementById("diagnostico").innerHTML += "<br> la respuesta a: el paciente " + nombre_paciente + " ¿tiene gripe? es: " + r;
+        });
+
+    }
+
+    function evaluar2() {
+        if (document.frm_sintomas.cb_fiebre.checked == true) {
+            alert("fiebre");
+        } else {
+            alert("hola mundo");
+        }
+
+    }
+</script>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>tp-h-basico</title>
+    <script src="tau-prolog.js"></script>
+</head>
+
+<body>
+    <textarea id="program" rows="4" cols="50" style="background-color:#cce0e0">
+            programa(ana,c).
+            programa(ana,cpp).
+            programa(juan,java).
+            programa(ana,html).
+    </textarea>
+    <pre>
+        Arriba se muestra la BC, haciendo clic en el botón
+        Busca los lenguajes en que programa ana
+    </pre>
+    <input type="button" value="ver que programa ana" id="button" onClick="programa('ana');" />
+    <div id="result"></div>
+</body>
+<script>
+    function programa(name) {
+        //creamos la sesion para tau-prolog(tp)
+        var session = pl.create(1000);
+        //limpiamos el área de salida en html
+        var program = document.getElementById("program").value;
+        document.getElementById("result").innerHTML = "";
+        //cargamos la BC
+        session.consult(program);
+        //enviamos la pregunta a tp
+        session.query("programa(" + name + ", X).");
+        //buscar respuestas, enviando como parametro la
+        //funcion callback que se ejecutará cada que encuentre una
+        //respuesta.
+        //answare encuentra la primera respuesta
+        //answars encuentra todas
+        //session.answer(function (answer) {
+        session.answers(function (answer) {
+            if (pl.type.is_substitution(answer)) {
+                let r = pl.format_answer(answer);
+                console.log("respuesta: " + r);
+                result.innerHTML = result.innerHTML + "<p>Variable: " + r + "</p>";
+                let valor = answer.lookup("X");
+                console.log("respuesta: " + r);
+                result.innerHTML = result.innerHTML + "<p>valor: " + valor + "</p>";
+            }
+        }, 1000);
+    }
+
+</script>
+
+</html>

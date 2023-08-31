@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>tp-h-en-rev</title>
+    <script src="tau-prolog.js"></script>
+</head>
+
+<body>
+
+    <textarea rows="10" cols="80" style="background-color:#9bcf87">
+        Trabajaremos con esta BC, cargada en un 
+        --script type="text/prolog" id="program.pl"--
+        programa(ana,c).
+        programa(ana,cpp).
+        programa(juan,java).
+        programa(ana,html).
+        La consulta que se ejecutará es: programa(ana,X).
+    </textarea>
+    <pre>
+        arriba se muestra la BC, haciendo clic en el botón
+        Busca los lenguajes en que programa ana
+    </pre>
+
+    <input type="button" value="ver que le gusta" id="button" onClick="programa('ana');" />
+
+    <!-- Resopuestas -->
+    <div class="example-result" id="result"></div>
+</body>
+<script type="text/prolog" id="program.pl">
+    programa(ana,c).
+    programa(ana,cpp).
+    programa(juan,java).
+    programa(ana,html).
+</script>
+<script type="text/javascript">
+
+
+    /***
+     * funcion programa: mostrar los lenguajes de una persona
+     * @author jflores
+     * @param {string} name - nombre a buscar ('nombre' o variable Y)
+     */
+    function programa(name) {
+        // Crear session
+        var session = pl.create(1000);
+        // Limpiar salida
+        document.getElementById("result").innerHTML = "";
+        // cargar la BC
+        session.consult("program.pl");
+        //Preparar el objetivo de la consulta (Query goal)
+        //name trae el nombre de la persona o la variable Y
+        //para generar una consulta asi:
+        //gusta_a('ana',X).
+        //o asi:
+        //gusta_a(Y,X).
+        session.query("programa(" + name + ", X).");
+        // Buscar respuestas
+        session.answers(function (answer) {
+            var result = document.getElementById("result");
+            // Validar respuesta
+            if (pl.type.is_substitution(answer)) {
+                // obtener el valor de la respuesta
+                var food = answer.lookup("X");
+                // obtener la persona
+                var person = "ana";
+                // mostrar respuesta
+                result.innerHTML = result.innerHTML + "<p> a " + person + " le gusta " + food + "</p>";
+                console.log(" le gusta " + food);
+            }
+        }, 1000);
+    }
+
+
+</script>
+
+</html>
