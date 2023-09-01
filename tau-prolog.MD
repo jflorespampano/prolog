@@ -18,7 +18,7 @@ Suponga que tiene los siguientes hechos en una base de conocimiento (BC):
 3. Juan programa en java expresado en prolog como: programa(juan,java)
 4. Ana programa en html expresado en prolog como: programa(ana,html)
 
-Debe tener la base de conocimiento escrita en su código html así:
+Puede tener la base de conocimiento escrita en su código html así:
 
 ```html
     <textarea id="program" rows="4" cols="50" style="background-color:#cce0e0">
@@ -28,7 +28,7 @@ Debe tener la base de conocimiento escrita en su código html así:
             programa(ana,html).
     </textarea>
 ```
-Todos los métodos de tau-prolog estarán cargados en el objeto pl. Para empezar a trabajar con tauprolog(TP) debe crear una sesión:
+Todos los métodos de tau-prolog estan cargados en el objeto pl que viene en la biblioteca **tau-prolog**. Para empezar a trabajar con tauprolog(TP) debe crear una sesión:
 
 ```html
 <script>
@@ -61,8 +61,9 @@ O buscar todas las respuestas
 `session.answers(funcionCallBack(r))`
 
 
-`session.answars` busca las posibles respuestas y por cada que encuentre una respuesta positiva a la pregunta, ejecuta la funcion callback. La funcion callback recibe un parametro r, con la respuesta encontrada. Ese parámetro se lo envia session.answares.
-`session.answare` (sin s al final) es similar al anterior la diferencia es que busca solo la primera respuesta.
+`session.answers` busca las posibles respuestas y por cada que encuentre una respuesta positiva a la pregunta, ejecuta la funcion callback. La funcion callback recibe un parametro `r`, con la respuesta encontrada. Ese parámetro es enviado a la funcion callback por la función `session.answers`.
+
+`session.answer` (sin s al final) es similar al anterior la diferencia es que busca solo la primera respuesta.
 
 ```html
 <script>
@@ -134,6 +135,28 @@ código completo del ejemplo:
 </script>
 
 </html>
+```
+
+## formas de cargar la BC
+Otra forma de cargar la BC es la siguiente:
+
+Cargamos la BC en un script. 
+```html
+<script type="text/prolog" id="program.pl">
+    programa(ana,c).
+    programa(ana,cpp).
+    programa(juan,java).
+    programa(ana,html).
+</script>
+
+```
+
+Despues cargamos la BC a tau-prolog
+```js
+    // Crear session
+    var session = pl.create(1000);
+    // cargar la BC
+    session.consult("program.pl");
 ```
 ## Referencias
 [tau prolog](http://tau-prolog.org/examples/likes)
