@@ -697,10 +697,14 @@ puede_proyecto2:-programadorsr(X),programadorsr(Y),X\=Y.
 puede_proyecto3:-lider(X),programadorsr(Y),X\=Y.
 ```
 
-Referencias:
+## Referencias:
 
 [trabajando con VSCode](https://github.com/pdep-utn/enunciados-miercoles-noche/blob/master/pages/prolog/entorno.md)
 
 [adrinistan/supertutorial](https://en.wikibooks.org/wiki/Prolog/Bagof,_Setof_and_Findall)
 
 [swich Prolog](https://swish.swi-prolog.org/p/Tutorial%20de%20prolog.swinb)
+
+[instalacion y configuracion de prolog](https://github.com/pdep-utn/enunciados-miercoles-noche/blob/master/pages/prolog/entorno.md)
+
+[ejemplos de prolog](https://github.com/FabianNorbertoEscobar/prolog-haskell-ejercicios/blob/master/ventas%20semestrales.pl~)

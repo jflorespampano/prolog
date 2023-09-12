@@ -4,7 +4,7 @@ estándar ISO Prolog.
 
 Tau Prolog es libre y lo puede obtener desde: 
 http://tau-prolog.org/
-Esto descarga el archivo: tau-prolog.js
+En downloads, descargue  tau-prolog. Esto descarga el archivo: "**tau-prolog.js**"
 Que después puede cargar en su archivo html así:
 
 `<script src="tau-prolog.js"></script>`
@@ -18,7 +18,7 @@ Suponga que tiene los siguientes hechos en una base de conocimiento (BC):
 3. Juan programa en java expresado en prolog como: programa(juan,java)
 4. Ana programa en html expresado en prolog como: programa(ana,html)
 
-Puede tener la base de conocimiento escrita en su código html así:
+Puede poner la base de conocimiento (BC) en su código html así:
 
 ```html
     <textarea id="program" rows="4" cols="50" style="background-color:#cce0e0">
@@ -28,12 +28,13 @@ Puede tener la base de conocimiento escrita en su código html así:
             programa(ana,html).
     </textarea>
 ```
-Todos los métodos de tau-prolog estan cargados en el objeto pl que viene en la biblioteca **tau-prolog**. Para empezar a trabajar con tauprolog(TP) debe crear una sesión:
+Todos los métodos de tau-prolog estan cargados en el objeto `pl` que viene en la biblioteca **tau-prolog**. Para empezar a trabajar con tauprolog(TP) debe crear una sesión:
 
 ```html
 <script>
     //creamos la sesion para tau-prolog(tp)
     var session = pl.create(1000);
+    //el 1000 es opcional
 </script>
 ```
 
@@ -52,11 +53,11 @@ El siguiente paso es cargar la pregunta que se realizará en la BC:
 /*preguntamos si juan programa en java*/
 session.query("programa(juan,java)."); 
 ```
-A continuación buscamos la repuestas a esa pregunta:
+A continuación buscamos la repuesta a esa pregunta:
 
 `session.answer(funcionCallBack(r))`
 
-O buscar todas las respuestas
+O buscamos todas las respuestas a esa pregunta
 
 `session.answers(funcionCallBack(r))`
 
@@ -160,5 +161,10 @@ Despues cargamos la BC a tau-prolog
 ```
 ## Referencias
 [tau prolog](http://tau-prolog.org/examples/likes)
+
 [Ejemplo t-p](https://swi-prolog.discourse.group/t/libreria-da-tau-prolog-en-javascrit/1572)
+
+[Documentacion de tau-prolog](http://tau-prolog.org/documentation)
+
+[Ejemplos del curso](https://github.com/jflorespampano/prolog/tree/main/tau-prolog)
 
